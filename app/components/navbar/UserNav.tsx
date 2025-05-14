@@ -3,10 +3,11 @@ import { useState } from "react";
 import MenuLink from "./MenuLink";
 
 const UserNav = () =>{
-    const [isOpen,SetIsOpen] = useState(true);
+    const [isOpen,SetIsOpen] = useState(false);
     return (
         <div className="p-2 relative inline-block border rounded-full">
-            <button  className="flex items-center">
+            <button
+            onClick={() => SetIsOpen(!isOpen)}  className="flex items-center">
                 <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
