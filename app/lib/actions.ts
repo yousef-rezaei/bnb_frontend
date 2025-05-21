@@ -22,3 +22,18 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
         maxAge: 60 * 60 * 24 * 7, // 1 week
     });
 }
+
+export async function resetAuthCookies() {
+    const cookieStore = await cookies();
+    cookieStore.set('session_userId', '');
+    cookieStore.set('session_access_token', '');    
+    cookieStore.set('session_refresh_token', '');
+}
+       
+//
+// get userId from cookies
+export async function getUserId() {
+    const cookieStore = await cookies();
+    const userId = cookieStore.get('session_userId')?.value;
+    return userId ?? null; // same as: userId ? userId : null
+}
