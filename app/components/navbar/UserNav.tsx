@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import MenuLink from "./MenuLink";
 import  LogoutButton  from "../LogoutButton";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignupModal from "@/app/hooks/useSignupModal";
+import { ro } from "date-fns/locale";
 
 interface UserNavProps {
     userId: string | null;
@@ -13,6 +15,7 @@ interface UserNavProps {
 const UserNav: React.FC<UserNavProps> = ({
     userId
 }) =>{
+    const router = useRouter();
     const loginModal = useLoginModal();
     const SignupModal = useSignupModal();
     const [isOpen,SetIsOpen] = useState(false);
@@ -31,7 +34,16 @@ const UserNav: React.FC<UserNavProps> = ({
             {isOpen && (
                 <div className="w-[220px] absolute top-[60px] right-0 bg-white border rounded-xl shadow-md flex flex-col cursor-pointer">
                     {userId ? (
-                        <LogoutButton/>
+                        <>
+                            <MenuLink
+                                label="My Properties"
+                                onClick={() => {
+                                    SetIsOpen(false);
+                                    router.push('/myproperties');
+                                }}
+                            />
+                            <LogoutButton/>
+                        </>
                         ):(
                             <>
                                 <MenuLink
