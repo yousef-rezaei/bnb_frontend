@@ -11,11 +11,13 @@ interface ConversationDetailProps {
     userId: string;
     token: string;
     conversation: ConversationType;
+    messages: MessageType[];
 }
 
 const ConversationDetail: React.FC<ConversationDetailProps> = ({
     userId,
     token,
+    messages,
     conversation
 }) => {
     const messagesDiv = useRef<HTMLDivElement>(null);
@@ -29,6 +31,8 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
         shouldReconnect: () => true,
     });
 
+ 
+
     useEffect(() => {
         console.log("WebSocket connection state:", readyState);
     }, [readyState]);
@@ -40,7 +44,7 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                 name: lastJsonMessage.name as string,
                 body: lastJsonMessage.body as string,
                 sent_to: otherUser as UserType,
-                create_by: myUser as UserType,
+                created_by: myUser as UserType,
                 conversationId: conversation.id,
             }
             setRealtimeMessages((realtimeMessages) => [...realtimeMessages, message]);
@@ -54,20 +58,17 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
             event: 'chat_message',
             data: {
                 body: newMessage,
-                name: 'Yousef',//myUser?.name,
+                name: myUser?.name,
                 sent_to_id: otherUser?.id,
                 conversation_id: conversation.id,
             }
         });
         setNewMessage('');
-        console.log('sendMessage2');
         setTimeout(() => {
             scrollToBottom();
         }, 50); // Simulate a delay for the message to appear
-        console.log('sendMessage3');
     }
     const  scrollToBottom = () => {
-        console.log('scrollToBottom');
         if(messagesDiv.current) {
             messagesDiv.current.scrollTop = messagesDiv.current.scrollHeight;
         }
@@ -78,18 +79,28 @@ const ConversationDetail: React.FC<ConversationDetailProps> = ({
                 ref={messagesDiv}
                 className="max-h-[400px] overflow-auto flex flex-col space-y-4"
              >
+
+                 {messages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={`w-[80%]py-4 px-6 rounded-xl ${message.created_by.name == myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    >
+                        <p className="font-bold text-gray-500">{message.created_by.name}</p>
+                        <p>{message.body}</p>
+                    </div>
+                ))}
+ 
+                {realtimeMessages.map((message, index) => (
+
+                    <div 
+                        key={index}
+                        className={`w-[80%] py-4 px-6 rounded-xl ${message.name === myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
+                    >
+                        <p className="font-bold text-gray-500">{message.name}</p>
+                        <p>{message.body}</p>
+                    </div>
+                ))}
             </div>
-
-            {realtimeMessages.map((message, index) => (
-
-                <div 
-                    key={index}
-                    className={`w-[80%] py-4 px-6 rounded-xl ${message.name === myUser?.name ? 'ml-[20%] bg-blue-200' : 'bg-gray-200'}`}
-                >
-                    <p className="font-bold text-gray-500">{message.name}</p>
-                    <p>{message.body}</p>
-                </div>
-            ))}
 
             <div className="mt-4 py-4 px-6 flex border border-gray-300 space-x-4 rounded-xl">
                 <input 

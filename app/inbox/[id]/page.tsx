@@ -11,7 +11,7 @@ export type MessageType = {
     body: string;
     conversationId: string;
     sent_to : UserType;
-    create_by: UserType;
+    created_by: UserType;
 }
 
 const ConversationPage = async({params}: {params : {id:string}}) =>{
@@ -30,8 +30,9 @@ const ConversationPage = async({params}: {params : {id:string}}) =>{
     return(
         <main className="max-w-[1500px] mx-auto px-6 pb-6">
             <ConversationDetail
-                userId={userId}
                 token={token}
+                userId={userId}
+                messages={conversation.messages}
                 conversation={conversation.conversation}
             />
         </main>
