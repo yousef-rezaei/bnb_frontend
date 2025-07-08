@@ -39,17 +39,12 @@
 //     )
 // }
 // export default ConversationPage;
+
+
 import { getUserId, getAccessToken } from "@/app/lib/actions";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import apiService from "@/app/services/apiService";
 import { UserType } from "../page";
-
-// Define the expected shape of the URL params
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
 
 export type MessageType = {
   id: string;
@@ -60,15 +55,19 @@ export type MessageType = {
   created_by: UserType;
 };
 
-// Do NOT extend or constrain to a `PageProps` from outside!
-const ConversationPage = async ({ params }: PageProps) => {
+// ✅ DO NOT name this "PageProps"
+const ConversationPage = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
   const userId = await getUserId();
   const token = await getAccessToken();
 
   if (!userId || !token) {
     return (
       <main className="max-w-[1500px] mx-auto px-6 py-12">
-        <p className="text-2xl font-bold">Please log in to view your favorites</p>
+        <p className="text-2xl font-bold">Please log in to view your messages.</p>
       </main>
     );
   }
