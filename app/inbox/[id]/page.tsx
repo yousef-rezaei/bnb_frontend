@@ -13,14 +13,14 @@ export type MessageType = {
   created_by: UserType;
 };
 
-type Params = Promise<{ id: string }>
+type Params = Promise<{ slug: string }>
 export async function ConversationPage(props: {
   params: Params
 
 }) {
   const params = await props.params
   
-  const id = params.id
+  const id = params.slug
  
 
   const userId = await getUserId();
