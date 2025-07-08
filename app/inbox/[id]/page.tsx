@@ -41,6 +41,7 @@
 // export default ConversationPage;
 
 
+
 import { getUserId, getAccessToken } from "@/app/lib/actions";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import apiService from "@/app/services/apiService";
@@ -55,12 +56,12 @@ export type MessageType = {
   created_by: UserType;
 };
 
-// ✅ DO NOT name this "PageProps"
-const ConversationPage = async ({
+// ✅ No type aliasing like "PageProps"
+export default async function Page({
   params,
 }: {
   params: { id: string };
-}) => {
+}) {
   const userId = await getUserId();
   const token = await getAccessToken();
 
@@ -84,6 +85,4 @@ const ConversationPage = async ({
       />
     </main>
   );
-};
-
-export default ConversationPage;
+}
