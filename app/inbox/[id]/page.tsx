@@ -3,6 +3,7 @@ import apiService from "@/app/services/apiService";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import { UserType } from "../page";
 
+
 export type MessageType = {
   id: string;
   name: string;
@@ -13,7 +14,7 @@ export type MessageType = {
 };
 
 type Params = Promise<{ id: string }>
-export default async function ConversationPage(props: {
+export async function ConversationPage(props: {
   params: Params
 
 }) {
