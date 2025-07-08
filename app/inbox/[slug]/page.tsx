@@ -20,7 +20,7 @@ export async function ConversationPage(props: {
 }) {
   const params = await props.params
   
-  const id = params.slug
+  const slug = params.slug
  
 
   const userId = await getUserId();
@@ -34,7 +34,7 @@ export async function ConversationPage(props: {
     );
   }
 
-  const conversation = await apiService.get(`/api/chat/${id}/`);
+  const conversation = await apiService.get(`/api/chat/${slug}/`);
 
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
