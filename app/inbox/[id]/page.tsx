@@ -44,46 +44,47 @@ import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import apiService from "@/app/services/apiService";
 import { UserType } from "../page";
 
-export type MessageType = {
+// Define the expected shape of the URL params
+interface PageProps {
+  params: {
     id: string;
-    name: string;
-    body: string;
-    conversationId: string;
-    sent_to: UserType;
-    created_by: UserType;
+  };
+}
+
+export type MessageType = {
+  id: string;
+  name: string;
+  body: string;
+  conversationId: string;
+  sent_to: UserType;
+  created_by: UserType;
 };
 
-// ✅ No need for any Next.js type import like PageProps
-type Props = {
-    params: {
-        id: string;
-    };
-};
+// Do NOT extend or constrain to a `PageProps` from outside!
+const ConversationPage = async ({ params }: PageProps) => {
+  const userId = await getUserId();
+  const token = await getAccessToken();
 
-const ConversationPage = async ({ params }: Props) => {
-    const userId = await getUserId();
-    const token = await getAccessToken();
-
-    if (!userId || !token) {
-        return (
-            <main className="max-w-[1500px] mx-auto px-6 py-12">
-                <p className="text-2xl font-bold">Please log in to view your favorites</p>
-            </main>
-        );
-    }
-
-    const conversation = await apiService.get(`/api/chat/${params.id}/`);
-
+  if (!userId || !token) {
     return (
-        <main className="max-w-[1500px] mx-auto px-6 pb-6">
-            <ConversationDetail
-                token={token}
-                userId={userId}
-                messages={conversation.messages}
-                conversation={conversation.conversation}
-            />
-        </main>
+      <main className="max-w-[1500px] mx-auto px-6 py-12">
+        <p className="text-2xl font-bold">Please log in to view your favorites</p>
+      </main>
     );
+  }
+
+  const conversation = await apiService.get(`/api/chat/${params.id}/`);
+
+  return (
+    <main className="max-w-[1500px] mx-auto px-6 pb-6">
+      <ConversationDetail
+        token={token}
+        userId={userId}
+        messages={conversation.messages}
+        conversation={conversation.conversation}
+      />
+    </main>
+  );
 };
 
 export default ConversationPage;
