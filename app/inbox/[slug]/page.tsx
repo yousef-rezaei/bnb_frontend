@@ -3,7 +3,6 @@ import apiService from "@/app/services/apiService";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import { UserType } from "../page";
 
-
 export type MessageType = {
   id: string;
   name: string;
@@ -13,13 +12,12 @@ export type MessageType = {
   created_by: UserType;
 };
 
-// type Params = Promise<{ slug: string }>
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: { slug: string };
 }) {
-  const slug = (await params).slug
+  const { slug } = params;
 
   const userId = await getUserId();
   const token = await getAccessToken();
@@ -44,5 +42,4 @@ export default async function Page({
       />
     </main>
   );
-};
-
+}
