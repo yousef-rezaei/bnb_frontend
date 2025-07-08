@@ -13,14 +13,13 @@ export type MessageType = {
   created_by: UserType;
 };
 
-type Params = Promise<{ slug: string }>
-export async function ConversationPage(props: {
-  params: Params
-
+// type Params = Promise<{ slug: string }>
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
 }) {
-  const params = await props.params
-  
-  const slug = params.slug
+  const { slug } = await params;
  
 
   const userId = await getUserId();
