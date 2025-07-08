@@ -17,10 +17,9 @@ export type MessageType = {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>
 }) {
-  const { slug } = await params;
- 
+  const slug = (await params).slug
 
   const userId = await getUserId();
   const token = await getAccessToken();
@@ -46,5 +45,4 @@ export default async function Page({
     </main>
   );
 };
-
 
