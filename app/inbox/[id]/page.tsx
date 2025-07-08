@@ -40,8 +40,6 @@
 // }
 // export default ConversationPage;
 
-
-
 import { getUserId, getAccessToken } from "@/app/lib/actions";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import apiService from "@/app/services/apiService";
@@ -56,7 +54,7 @@ export type MessageType = {
   created_by: UserType;
 };
 
-// ✅ No type aliasing like "PageProps"
+// ✅ Use default export named `Page` (Next.js expects this)
 export default async function Page({
   params,
 }: {
