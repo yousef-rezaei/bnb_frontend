@@ -39,10 +39,6 @@
 //     )
 // }
 // export default ConversationPage;
-import { GetServerSidePropsContext } from "next"; // Optional if you need full context
-import { Metadata } from "next";
-import { notFound } from "next/navigation"; // for better error handling
-
 import { getUserId, getAccessToken } from "@/app/lib/actions";
 import ConversationDetail from "@/app/components/inbox/ConversationDetail";
 import apiService from "@/app/services/apiService";
@@ -57,7 +53,7 @@ export type MessageType = {
     created_by: UserType;
 };
 
-// 👇 fix here: use type from Next.js
+// ✅ No need for any Next.js type import like PageProps
 type Props = {
     params: {
         id: string;
